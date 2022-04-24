@@ -15,6 +15,8 @@ const User = require('./models/User')
 
 //Import Routes
 const toughtsRoutes = require('./routes/toughtsRoutes')
+//Import authRoutes
+const authRoutes = require('./routes/authRoutes')
 
 //Import Controllers
 const ToughtController = require('./controllers/ToughtController')
@@ -70,10 +72,11 @@ app.use((req, res, next) => {
 
 //Routes
 app.use('/toughts', toughtsRoutes)
+app.use('/', authRoutes)
 
 app.use('/', ToughtController.showToughts)
 
-conn
+conn//ligação com banco de dados
     //.sync({force: true})//força criar coluna UserId
     .sync()
     .then(()=> {

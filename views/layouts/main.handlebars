@@ -18,12 +18,22 @@
         <ul>
         <li><a href="/">Pensamentos</a></li>
         {{!-- URLS apos autenticação --}}
+        {{#if session.userid}}
+        <li><a href="/toughts/dashboard">Dashboard</a></li>
+        <li><a href="/logout">Sair</a></li>
+        {{else}}
         <li><a href="/login">Entrar</a></li>
         <li><a href="/register">Registrar</a></li>
+        {{/if}}
         </ul>
     </nav>
-    <div class="container">
+    <div class="container"> 
         {{!-- Mensagens --}}
+        {{#if messages.message}}
+            <div class="message">
+                {{messages.message}}{{!-- esta mensagem vem do req.flash na controller --}}
+            </div>
+        {{/if}}
     {{{ body }}}
     </div>
     <footer>
