@@ -3,8 +3,16 @@ const Tought = require('../models/Tought')//importacao de models/Tought
 const User = require('../models/User')//importacao de models/User
 
 module.exports = class ToughtController{
+
     static async showToughts(req,res) {
-        res.render('toughts/home')
+        //busca todos os pensamentos
+        const toughtData = await Tought.findAll({
+            include: User,
+        })
+
+        const toughts = toughtData.map((result) => result.get({ plain: true}))
+
+        res.render('toughts/home',{toughts})
     }
 
     static async dashboard(req,res) {
