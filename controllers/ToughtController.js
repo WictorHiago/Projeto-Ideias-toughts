@@ -1,18 +1,35 @@
-const { raw } = require('express')
 const Tought = require('../models/Tought')//importacao de models/Tought
 const User = require('../models/User')//importacao de models/User
+const { Op } = require('sequelize')
 
 module.exports = class ToughtController{
 
     static async showToughts(req,res) {
+
+        let search = ''
+
+        if(req.query.search) {
+            search = req.query.search
+        }
+
         //busca todos os pensamentos
-        const toughtData = await Tought.findAll({
+        const toughtsData = await Tought.findAll({
             include: User,
+            //tras as buscas
+            where: {
+                title: {[Op.like]: `%${search}%`},
+            },
         })
 
-        const toughts = toughtData.map((result) => result.get({ plain: true}))
-
-        res.render('toughts/home',{toughts})
+        //traz a quantidade de itens encontrados na busca
+        const toughts = toughtsData.map((result) => result.get({ plain: true}))
+        let toughtsQty = toughts.length
+        if(toughtsQty === 0) {
+            toughtsQty = false
+        }
+        toughtsQty
+// PAREI EM 6:31
+        res.render('toughts/home',{toughts , search , toughtsQty})
     }
 
     static async dashboard(req,res) {

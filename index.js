@@ -76,11 +76,11 @@ app.use('/', authRoutes)
 
 app.use('/', ToughtController.showToughts)
 
-//conn//ligação com banco de dados
+conn//ligação com banco de dados
   //  .sync({force: true})//força criar coluna UserId
-    //.sync()
- //   .then(()=> {
+    .sync()
+    .then(()=> {
         app.listen(3030)// PORT
-   // })
-    //.catch((err)=> console.log(err))
+    })
+    .catch((err)=> console.log(err))
         
