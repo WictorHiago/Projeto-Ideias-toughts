@@ -37,7 +37,6 @@ module.exports = class ToughtController{
             toughtsQty = false
         }
         toughtsQty
-
         res.render('toughts/home',{toughts , search , toughtsQty})
     }
 
