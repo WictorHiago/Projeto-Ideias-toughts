@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 //controller
 const ToughtController = require('../controllers/ToughtController')
-//helpers
+//import check auth middleware
 const checkAuth = require('../helpers/auth').checkAuth
 
 

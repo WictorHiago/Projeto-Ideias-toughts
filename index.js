@@ -82,5 +82,4 @@ conn//ligação com banco de dados
     .then(()=> {
         app.listen(3030)// PORT
     })
-    .catch((err)=> console.log(err))
-        
+    .catch((err)=> console.log(err));

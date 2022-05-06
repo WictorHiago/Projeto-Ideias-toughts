@@ -1,5 +1,5 @@
-const Tought = require('../models/Tought')//importacao de models/Tought
-const User = require('../models/User')//importacao de models/User
+const Tought = require('../models/Tought')
+const User = require('../models/User')
 const { Op } = require('sequelize')
 
 module.exports = class ToughtController{
@@ -50,17 +50,17 @@ module.exports = class ToughtController{
             include: Tought,
             plain: true,
         })
-        //check if user exists
-        if(!user) {
-            res.redirect('/login')
-        }
+        
+        // if(!user) {
+        //     res.redirect('/login')
+        // }
         //tras a tabela de tarefas criadas
         const toughts = user.Toughts.map((result) => result.dataValues)
-        //se a lista de tarefas estiver vazia entao ela é false
-        let emptyToughts =false// é LET para poder alterar seu valor
+        
+        let emptyToughts = true
 
-        if(toughts.length === 0){
-            emptyToughts = true
+        if(toughts.length > 0){
+            emptyToughts = false
         }
 
         res.render('toughts/dashboard', { toughts, emptyToughts })
@@ -69,7 +69,7 @@ module.exports = class ToughtController{
     static createToughts(req, res) {
         res.render('toughts/create')
     }
-    //async para esperar a resposta do Banco
+    
     static async createToughtsSave(req, res) {
 
         const tought = {
@@ -78,7 +78,7 @@ module.exports = class ToughtController{
         }
 
         try{
-            //await espera o Banco criar
+            
             await Tought.create(tought)
     
             req.flash('message', 'Pensamento criado com Sucesso!')
@@ -94,12 +94,12 @@ module.exports = class ToughtController{
 
     static async removeTought(req, res ) {
 
-        const id = req.body.id//pegamos o id que está no body
-        const UserId = req.session.userid//pegamos o UserId da sessao
+        const id = req.body.id
+        const UserId = req.session.userid
 
         try{
 
-            await Tought.destroy({where: {id: id, UserId: UserId}})//filtra pelo id do Banco e pelo UserId da sessao
+            await Tought.destroy({where: {id: id, UserId: UserId}})
 
             req.flash('message', 'Pensamento removido com sucesso!')
 
@@ -114,8 +114,8 @@ module.exports = class ToughtController{
     }
 
     static async updateTought(req, res) {
-        const id = req.params.id //para pegar o id
-        //tem que se await pois tem que esperar essa requisição
+        const id = req.params.id
+        
         const tought = await Tought.findOne( { where: {id: id}, raw: true} )
 
         res.render('toughts/edit', { tought })

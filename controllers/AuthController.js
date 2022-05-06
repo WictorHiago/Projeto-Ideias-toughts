@@ -10,9 +10,9 @@ module.exports = class AuthController {
 
     static async loginPost(req, res) {
         const { email, password } = req.body
-        //find user
-        const user = await User.findOne({ where: { email: email } })
+        
         //validando email do user
+        const user = await User.findOne({ where: { email: email } })
         if (!user) {
             req.flash('message', 'Usuário não encontrado!!')
             res.render('auth/login')
@@ -28,7 +28,7 @@ module.exports = class AuthController {
 
             return
         }
-        //se validou Email e senha, inicia session
+        
         //initialize session
         req.session.userid = user.id
 
@@ -36,7 +36,6 @@ module.exports = class AuthController {
 
         //salva nossa sessao
         req.session.save(() => {
-            //e manda pra homepager
             res.redirect('/')
         })
     }
@@ -47,7 +46,7 @@ module.exports = class AuthController {
 
     static async registerPost(req, res) {
         const { name, email, password, confirmpassword } = req.body
-        //password match validation
+        //comparação de password
         if (password != confirmpassword) {
             req.flash('message', 'As senhas não conferem')
             res.render('auth/register')
@@ -65,7 +64,7 @@ module.exports = class AuthController {
             return
         }
 
-        //create a password / dificulta mais a senha
+        //create a password
         const salt = bcrypt.genSaltSync(10)
         const hashedPassword = bcrypt.hashSync(password, salt)
 

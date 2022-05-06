@@ -1,9 +1,9 @@
 //midleware
 module.exports.checkAuth = function (req, res, next) {
 
-    const user = req.session.userid
+    const userId = req.session.userid
 
-    if(!user) {
+    if(!userId) {
 
         res.redirect('/login')
     }
